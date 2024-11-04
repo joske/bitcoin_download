@@ -59,10 +59,11 @@ fn check_transaction_inclusion(height: usize, tx_id: &str) -> Result<bool, Box<d
 }
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let heights = [100000, 150000, 300000];
+    let heights = [100000, 150000, 200000, 300000];
     let tx_ids = [
         "e9a66845e05d5abc0ad04ec80f774a7e585c6e8db975962d069a522137b80c1d",
         "25c6a1f8c0b5be2bee1e8dd3478b4ec8f54bbc3742eaf90bfb5afd46cf217ad9",
+        "9ec5296ae83c24de706254122409d1164ebc58666962a4578372d4cc7ffebc30",
         "c33240a15d4e252ec0284e4079776843780a7ea8836bd91f8fb8217ca23eed9b",
     ];
     for i in 0..heights.len() {
