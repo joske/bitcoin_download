@@ -1,0 +1,9 @@
+[package]
+name = "bitcoin-download"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+electrum-client = "0.21.0"
+bitcoin_hashes = "0.15"
+hex = "0.4"
