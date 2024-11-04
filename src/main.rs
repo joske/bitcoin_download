@@ -1,7 +1,6 @@
-use std::{error::Error, str::FromStr};
-
 use bitcoin_hashes::sha256d;
 use electrum_client::{bitcoin::Txid, Client, ElectrumApi};
+use std::{error::Error, str::FromStr};
 
 // Function to validate the merkle path
 fn validate_merkle_path(
@@ -18,9 +17,11 @@ fn validate_merkle_path(
         let reversed = sibling_hash.iter().rev().cloned().collect::<Vec<u8>>();
         let mut combined = Vec::new();
         if cur_idx % 2 == 0 {
+            // even -> compare from left
             combined.extend_from_slice(&current_hash);
             combined.extend_from_slice(&reversed);
         } else {
+            // odd -> compare from right
             combined.extend_from_slice(&reversed);
             combined.extend_from_slice(&current_hash);
         }
@@ -38,13 +39,12 @@ fn check_transaction_inclusion(height: usize, tx_id: &str) -> Result<bool, Box<d
     let txid = Txid::from_str(tx_id)?;
     let merkle_path = client.transaction_get_merkle(&txid, height)?;
     let txid: [u8; 32] = *txid.to_raw_hash().as_ref();
-    let correct = validate_merkle_path(
+    Ok(validate_merkle_path(
         &txid,
         merkle_path.pos,
         merkle_path.merkle,
         header.merkle_root.as_ref(),
-    );
-    Ok(correct)
+    ))
 }
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
