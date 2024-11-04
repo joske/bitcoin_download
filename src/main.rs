@@ -45,13 +45,9 @@ fn validate_merkle_path(
 
 fn check_transaction_inclusion(height: usize, tx_id: &str) -> Result<bool, Box<dyn Error>> {
     let client = Client::new("tcp://electrum.blockstream.info:50001")?;
-    let response = client.server_features()?;
-    println!("{:?}", response);
     let header = client.block_header(height)?;
-    println!("{:?}", header);
     let txid = Txid::from_str(tx_id)?;
     let merkle_path = client.transaction_get_merkle(&txid, height)?;
-    println!("{:?}", merkle_path);
     let txid: [u8; 32] = *txid.to_raw_hash().as_ref();
     let correct = validate_merkle_path(
         &txid,
