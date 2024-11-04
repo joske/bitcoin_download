@@ -20,22 +20,11 @@ fn validate_merkle_path(
         if cur_idx % 2 == 0 {
             combined.extend_from_slice(&current_hash);
             combined.extend_from_slice(&reversed);
-            print!(
-                "{cur_idx} hashing {} with {}",
-                hex::encode(current_hash),
-                hex::encode(reversed)
-            );
         } else {
             combined.extend_from_slice(&reversed);
             combined.extend_from_slice(&current_hash);
-            print!(
-                "{cur_idx} hashing {} with {}",
-                hex::encode(reversed),
-                hex::encode(current_hash),
-            );
         }
         current_hash = sha256d::Hash::hash(&combined).to_byte_array();
-        println!(" -> {}", hex::encode(current_hash));
         cur_idx /= 2;
     }
 
