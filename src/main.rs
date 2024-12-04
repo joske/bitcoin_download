@@ -48,6 +48,10 @@ fn check_transaction_inclusion(height: usize, tx_id: &str) -> Result<bool, Box<d
 }
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
+    let client = Client::new("tcp://electrum.blockstream.info:60001")?;
+    let header = client.block_header(3500000);
+    println!("testnet {:?}", header);
+
     let heights = [100000, 150000, 200000, 300000, 500000];
     let tx_ids = [
         "e9a66845e05d5abc0ad04ec80f774a7e585c6e8db975962d069a522137b80c1d",
